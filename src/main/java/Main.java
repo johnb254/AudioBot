@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class Main extends ListenerAdapter implements EventListener {
     public static void main(String[] args) throws LoginException {
-        JDA jda = new JDABuilder().addEventListeners(new Main()).setActivity(Activity.watching("you")).build();
+        JDA jda = new JDABuilder(getToken()).addEventListeners(new Main()).build();
         jda.addEventListener(new Commands());
     }
 
