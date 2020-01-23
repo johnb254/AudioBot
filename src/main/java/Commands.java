@@ -6,7 +6,7 @@ public class Commands extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         Message msg = event.getMessage();
-        String raw = msg.getContentRaw();
+        String raw = msg.getContentDisplay();
 
         System.out.println("New Message Received:");
         System.out.println(raw);
