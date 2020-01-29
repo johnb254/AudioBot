@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 //Java Libraries
 import java.util.concurrent.TimeUnit;
 
+//const Discord = require("discord.js");
 
 public class Commands extends ListenerAdapter {//main method
     @Override
@@ -23,6 +24,9 @@ public class Commands extends ListenerAdapter {//main method
         else if (raw.substring(0, 6).equals("!obama")){//start else-if statement
             obamaAudio(msg);
         }//end else-if statement
+        else if (raw.toLowerCase().contains("when i figure out how to win")){
+            msg.getChannel().sendMessage("https://i.kym-cdn.com/photos/images/original/001/686/103/937").queue();
+        }
     }//end onMessageReceived method
 
     public void sayHello(Message msg){//sayHello method
@@ -50,7 +54,8 @@ public class Commands extends ListenerAdapter {//main method
                 msg.getChannel().sendMessage("Please wait. Receiving message from Barack Obama himself...").queue();
                 TimeUnit.SECONDS.sleep(30);
                 webPage2.refresh();
-                String vidUrl = "http://talkobamato.me/synth/output/" + webPage2.getUrl().toString().substring(47) + "/obama.mp4";
+                String vidUrl = webPage2.getUrl().toString();
+                //String vidUrl = "http://talkobamato.me/synth/output/" + webPage2.getUrl().toString().substring(47) + "/obama.mp4";
                 System.out.println(vidUrl);
 
                 msg.getChannel().sendMessage("Message received: \n " + vidUrl).queue();

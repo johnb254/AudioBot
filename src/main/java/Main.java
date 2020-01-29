@@ -27,7 +27,7 @@ public class Main extends ListenerAdapter implements EventListener {//main metho
         }//end try statement
         catch (IOException e) {//start catch statement
             e.printStackTrace();
-            System.out.print("Enter the bot token: ");
+            System.out.println("Enter the bot token: ");
             Scanner in = new Scanner(System.in);
             token = in.nextLine();
             in.close();
