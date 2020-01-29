@@ -30,7 +30,7 @@ public class Commands extends ListenerAdapter {//main method
     }//end sayHello method
 
     public void obamaAudio(Message msg) {//obamaAudio method
-        String content = msg.getContentDisplay().substring(7).trim();
+        String content = msg.getContentRaw().substring(7).trim();
         if (content.length() < 280) {//start if statement
             System.out.println(content);
             try (final WebClient webClient = new WebClient()) {//start try statement
