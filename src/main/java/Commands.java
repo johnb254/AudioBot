@@ -1,38 +1,41 @@
+//Website Libraries
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-
-import java.io.File;
+//Java Libraries
 import java.util.concurrent.TimeUnit;
 
-public class Commands extends ListenerAdapter {
+
+public class Commands extends ListenerAdapter {//main method
     @Override
-    public void onMessageReceived(MessageReceivedEvent event) {
+    public void onMessageReceived(MessageReceivedEvent event) {//onMessageReceived method
         Message msg = event.getMessage();
         String raw = msg.getContentDisplay();
 
         System.out.println("New Message Received:");
         System.out.println(raw);
 
-        if (raw.substring(0, 7).equals("!hello")) {
+        if (raw.substring(0, 6).equals("!hello")) {//start if statement
             sayHello(msg);
-        } else if (raw.substring(0, 6).equals("!obama")){
+        }//end if statement
+        else if (raw.substring(0, 6).equals("!obama")){//start else-if statement
             obamaAudio(msg);
-        }
-    }
+        }//end else-if statement
+    }//end onMessageReceived method
 
-    public void sayHello(Message msg){
+    public void sayHello(Message msg){//sayHello method
         msg.getChannel().sendMessage("Hello " + msg.getGuild().getName() + "!").queue();
-    }
+    }//end sayHello method
 
-    public void obamaAudio(Message msg) {
+    public void obamaAudio(Message msg) {//obamaAudio method
         String content = msg.getContentDisplay().substring(7).trim();
-        if (content.length() < 280) {
+        if (content.length() < 280) {//start if statement
             System.out.println(content);
-            try (final WebClient webClient = new WebClient()) {
-                HtmlPage page1 = webClient.getPage("http://talkobamato.me/synthesize.py");
+            try (final WebClient webClient = new WebClient()) {//start try statement
+                String mainpageURL = "http://talkobamato.me/synthesize.py";
+                HtmlPage page1 = webClient.getPage(mainpageURL);
 
                 HtmlForm inputForm = page1.getHtmlElementById("text_input");
                 HtmlTextArea inputText = inputForm.getTextAreaByName("input_text");
@@ -40,21 +43,26 @@ public class Commands extends ListenerAdapter {
 
                 inputText.setText(content);
 
-                HtmlPage page2 = submitButton.click();
+                String page2 = submitButton.click().getUrl().toString();
+
+                System.out.println(page2);
+                HtmlPage webPage2 = webClient.getPage(page2);
                 msg.getChannel().sendMessage("Please wait. Receiving message from Barack Obama himself...").queue();
                 TimeUnit.SECONDS.sleep(30);
-                page2.refresh();
-                String vidUrl = "http://talkobamato.me/synth/output/" + page2.getUrl().toString().substring(47) + "/obama.mp4";
+                webPage2.refresh();
+                String vidUrl = "http://talkobamato.me/synth/output/" + webPage2.getUrl().toString().substring(47) + "/obama.mp4";
                 System.out.println(vidUrl);
 
                 msg.getChannel().sendMessage("Message received: \n " + vidUrl).queue();
 
-            } catch (Exception e) {
+            } //end try statement
+            catch (Exception e) {//start catch statement
                 e.printStackTrace();
-                msg.getChannel().sendMessage("An error occurred. Transmission terminated.");
-            }
-        } else {
+                msg.getChannel().sendMessage("An error occurred. Transmission terminated.").queue();
+            }//end catch statement
+        } //end if statement
+        else {//start else statement
             msg.getChannel().sendMessage("280 character limit exceeded.").queue();
-        }
-    }
-}
+        }//end else statement
+    }//end obamaAudio method
+}//end main method
