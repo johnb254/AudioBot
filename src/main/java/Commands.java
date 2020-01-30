@@ -1,10 +1,16 @@
 //Website Libraries
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
+import com.github.jreddit.entity.Submission;
+import com.github.jreddit.retrieval.Submissions;
+import com.github.jreddit.retrieval.params.SubmissionSort;
+import com.github.jreddit.utils.restclient.HttpRestClient;
+import com.github.jreddit.utils.restclient.RestClient;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 //Java Libraries
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 //const Discord = require("discord.js");
@@ -18,14 +24,17 @@ public class Commands extends ListenerAdapter {//main method
         System.out.println("New Message Received:");
         System.out.println(raw);
 
-        if (raw.substring(0, 6).equals("!hello")) {//start if statement
+        if (raw.contains("!hello")) {//start if statement
             sayHello(msg);
         }//end if statement
-        else if (raw.substring(0, 6).equals("!obama")){//start else-if statement
+        else if (raw.contains("!obama")){//start else-if statement
             obamaAudio(msg);
         }//end else-if statement
         else if (raw.toLowerCase().contains("when i figure out how to win")){
             msg.getChannel().sendMessage("https://i.kym-cdn.com/photos/images/original/001/686/103/937").queue();
+        }
+        else if (raw.contains("!baby")){
+            getBaby(msg);
         }
     }//end onMessageReceived method
 
@@ -70,4 +79,23 @@ public class Commands extends ListenerAdapter {//main method
             msg.getChannel().sendMessage("280 character limit exceeded.").queue();
         }//end else statement
     }//end obamaAudio method
+
+    public void getBaby(Message msg) {
+        RestClient client = new HttpRestClient();
+
+        Submissions retriever = new Submissions(client);
+
+        Submission babyPost;
+
+        try {
+            do {
+                babyPost = retriever.ofSubreddit("babies", SubmissionSort.HOT, -1, 100, null, null, true).get((new Random().nextInt(98) + 1));
+            } while (babyPost.isNSFW());
+            msg.getChannel().sendMessage(babyPost.getUrl()).queue();
+        } catch (Exception e) {
+            e.printStackTrace();
+            msg.getChannel().sendMessage("Error occurred").queue();
+        }
+    }
+
 }//end main method

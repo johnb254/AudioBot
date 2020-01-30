@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+onst Discord = require('discord.js');
 
 exports.run = client, message, args) => {
     let user = message.mentions.users.first() || message.author;
