@@ -54,8 +54,8 @@ public class Commands extends ListenerAdapter {//main method
                 msg.getChannel().sendMessage("Please wait. Receiving message from Barack Obama himself...").queue();
                 TimeUnit.SECONDS.sleep(30);
                 webPage2.refresh();
-                String vidUrl = webPage2.getUrl().toString();
-                //String vidUrl = "http://talkobamato.me/synth/output/" + webPage2.getUrl().toString().substring(47) + "/obama.mp4";
+                //String vidUrl = webPage2.getUrl().toString();
+                String vidUrl = "http://talkobamato.me/synth/output/" + webPage2.getUrl().toString().substring(47) + "/obama.mp4";
                 System.out.println(vidUrl);
 
                 msg.getChannel().sendMessage("Message received: \n " + vidUrl).queue();
