@@ -1,3 +1,5 @@
 /.gradle/
 /.idea/
+/build/
+/AudioBot-master/
 /src/main/resources/config.properties
